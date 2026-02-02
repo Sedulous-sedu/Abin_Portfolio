@@ -993,6 +993,15 @@ const HeroSection = () => {
               <Linkedin className="w-5 h-5" />
               <span className="font-medium">LinkedIn</span>
             </a>
+            <a
+              href="/Abin_Portfolio/Abin_Raj_CV.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center gap-2 px-6 py-3 bg-zinc-100 text-zinc-900 border border-zinc-100 hover:bg-cyan-400 hover:border-cyan-400 transition-all rounded-full"
+            >
+              <span className="font-bold">RESUME</span>
+              <ExternalLink className="w-4 h-4" />
+            </a>
           </motion.div>
         </motion.div>
 
