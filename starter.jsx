@@ -36,14 +36,14 @@ const SECTIONS = [
 
 const MODELS = {
   hero: {
-    path: 'models/model-5.glb',
+    path: 'models/model-6.glb',
     animationPath: 'models/Arm Stretching.fbx',
     type: 'animated-glb',
     scale: 4.5,
     position: [0, -6.5, 0]
   },
   heroGLB: { path: 'models/model.glb', type: 'glb', scale: 4.0, position: [0, -2.5, 0] },
-  contact: { path: 'models/model-5.glb', type: 'glb', scale: 7.0, position: [0, -2.5, 0] }
+  contact: { path: 'models/model-6.glb', type: 'glb', scale: 7.0, position: [0, -2.5, 0] }
 };
 
 // ═══════════════════════════════════════════════════════════════════════════════
