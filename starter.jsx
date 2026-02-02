@@ -36,14 +36,14 @@ const SECTIONS = [
 
 const MODELS = {
   hero: {
-    path: '/models/model-5.glb',
-    animationPath: '/models/Arm Stretching.fbx',
+    path: 'models/model-5.glb',
+    animationPath: 'models/Arm Stretching.fbx',
     type: 'animated-glb',
     scale: 4.5,
     position: [0, -6.5, 0]
   },
-  heroGLB: { path: '/models/model.glb', type: 'glb', scale: 4.0, position: [0, -2.5, 0] },
-  contact: { path: '/models/model-5.glb', type: 'glb', scale: 7.0, position: [0, -2.5, 0] }
+  heroGLB: { path: 'models/model.glb', type: 'glb', scale: 4.0, position: [0, -2.5, 0] },
+  contact: { path: 'models/model-5.glb', type: 'glb', scale: 7.0, position: [0, -2.5, 0] }
 };
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -254,7 +254,7 @@ function Bird({ speed, factor, url, ...props }) {
   );
 }
 
-useGLTF.preload('/models/Stork.glb');
+useGLTF.preload('models/Stork.glb');
 
 const FlyingBirds = () => {
   const birds = useMemo(() =>
@@ -277,7 +277,7 @@ const FlyingBirds = () => {
           {birds.map((bird) => (
             <Bird
               key={bird.id}
-              url="/models/Stork.glb"
+              url="models/Stork.glb"
               position={[0, bird.y, 0]}
               scale={[bird.scale, bird.scale, bird.scale]}
               speed={bird.speed}
@@ -474,7 +474,7 @@ const BackgroundMusic = () => {
   return (
     <>
       <audio ref={audioRef} loop preload="auto">
-        <source src="/The Foundation.mp3" type="audio/mpeg" />
+        <source src="The Foundation.mp3" type="audio/mpeg" />
       </audio>
       <motion.button
         onClick={toggleMusic}
