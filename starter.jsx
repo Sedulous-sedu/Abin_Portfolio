@@ -269,7 +269,7 @@ const FlyingBirds = () => {
   );
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-10 h-screen w-screen">
+    <div className="fixed inset-0 pointer-events-none z-0 h-screen w-screen">
       <Canvas camera={{ position: [0, 0, 20], fov: 45 }} gl={{ alpha: true, antialias: true }} dpr={[1, 2]}>
         <ambientLight intensity={2} />
         <directionalLight position={[10, 10, 5]} intensity={1} />
@@ -364,7 +364,7 @@ const ShootingStars = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-5 overflow-hidden">
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
       {stars.map(star => (
         <motion.div
           key={star.id}
@@ -403,7 +403,7 @@ const FloatingCodeSymbols = () => {
   );
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-5 overflow-hidden">
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
       {items.map(item => (
         <motion.div
           key={item.id}
@@ -908,7 +908,7 @@ const Section = ({ id, children, className = '' }) => {
     <section
       id={id}
       ref={ref}
-      className={`relative min-h-screen flex items-center justify-center ${className}`}
+      className={`relative min-h-screen flex items-center justify-center z-20 ${className}`}
     >
       <motion.div
         initial={{ opacity: 0, y: 50 }}
