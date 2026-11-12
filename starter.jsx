@@ -1,5 +1,6 @@
+import HoneyBReplay from './src/HoneyBReplay.jsx';
 import React, { useState, useEffect, useRef, useMemo, useCallback, Suspense } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform, useSpring, useInView, useReducedMotion } from 'framer-motion';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF, useFBX, useAnimations, Environment, ContactShadows, Float, PresentationControls } from '@react-three/drei';
 import { Github, Linkedin, Mail, MapPin, Calendar, ExternalLink, ChevronDown, ArrowRight, Volume2, VolumeX } from 'lucide-react';
@@ -17,7 +18,7 @@ const PROFILE = {
   location: "Ras Al Khaimah, UAE",
   phone: "+971-55-3970058",
   email: "abin.abhiraj@gmail.com",
-  summary: "Final-year Computer Engineering student delivering AI-enabled platforms, multi-modal computer vision systems, and production-ready full-stack applications. Strong execution record across internships and industry-linked capstone work."
+  summary: "I build applied machine learning, real-time decision-support tools, and embedded systems. Explore my work in aviation simulation, grounded AI, and transport research."
 };
 
 const CONTACT = {
@@ -53,9 +54,9 @@ const MODELS = {
 const EDUCATION = [
   {
     institution: "American University of Ras Al Khaimah (AURAK)",
-    degree: "B.Sc. Computer Engineering (Final Year)",
-    period: "2022 - Present",
-    details: "CGPA: 3.2/4.00 | Relevant Coursework: Microprocessors, Embedded Systems, Machine Learning, Network Security, OS.",
+    degree: "B.Sc. Computer Engineering",
+    period: "2022 - 2026",
+    details: "CGPA: 3.24/4.00 | Relevant Coursework: Microprocessors, Embedded Systems, Machine Learning, Network Security, OS.",
     id: "EDU_01"
   },
   {
@@ -107,48 +108,63 @@ const experienceData = [
 
 const projectsData = [
   {
-    id: 'aurasentry',
-    title: 'AURASENTRY',
-    subtitle: 'Multi-modal PPE Detection System',
-    type: 'CAPSTONE / DEPLOYED',
-    tags: ['Python', 'TensorFlow', 'OpenCV', 'IoT'],
-    status: 'DEPLOYED',
-    url: 'https://github.com/Sedulous-sedu',
-    gradient: 'from-emerald-500 to-cyan-500',
-    desc: "Multi-modal warehouse surveillance for PPE detection, pallet compliance, and forklift monitoring."
+    "id": "dubizzle",
+    "title": "DubizzleBot",
+    "subtitle": "Grounded used-car assistant",
+    "type": "AI PROTOTYPE",
+    "tags": [
+      "Python",
+      "Streamlit",
+      "SQLite"
+    ],
+    "status": "",
+    "url": "https://github.com/Sedulous-sedu/DubizzleBot",
+    "gradient": "from-emerald-500 to-cyan-500",
+    "desc": "A take-home prototype that translates natural language into structured filters and retrieves inventory through deterministic services."
   },
   {
-    id: 'mazari',
-    title: 'MAZARI',
-    subtitle: 'Full-Stack Marketplace Platform',
-    type: 'E-COMMERCE',
-    tags: ['Flask', 'React', 'PostgreSQL', 'Docker'],
-    status: 'DEPLOYED',
-    url: 'https://github.com/Sedulous-sedu',
-    gradient: 'from-purple-500 to-pink-500',
-    desc: "Full-stack marketplace with payment integration (Stripe) and secure JWT authentication."
+    "id": "shuttle",
+    "title": "AURAK Shuttle Delay Prediction",
+    "subtitle": "ICERAI 2026 research",
+    "type": "APPLIED ML",
+    "tags": [
+      "Python",
+      "XGBoost",
+      "SHAP"
+    ],
+    "status": "",
+    "url": "https://github.com/Sedulous-sedu/AI_weather",
+    "gradient": "from-emerald-500 to-cyan-500",
+    "desc": "Compared logistic regression and XGBoost for arrival-delay classification using contextual transport features."
   },
   {
-    id: 'ai-traffic',
-    title: 'AI TRAFFIC',
-    subtitle: 'Smart Traffic Light System',
-    type: 'SIMULATION',
-    tags: ['Python', 'OpenCV', 'TensorFlow'],
-    status: 'COMPLETED',
-    url: 'https://github.com/Sedulous-sedu',
-    gradient: 'from-orange-500 to-red-500',
-    desc: "Real-time traffic signal logic simulation utilizing Computer Vision for flow optimization."
+    "id": "medguard",
+    "title": "MedGuard Companion",
+    "subtitle": "Medication-adherence dashboard",
+    "type": "EMBEDDED PROTOTYPE",
+    "tags": [
+      "TM4C123",
+      "LCD",
+      "TypeScript"
+    ],
+    "status": "",
+    "url": "https://github.com/Sedulous-sedu/medguard-companion",
+    "gradient": "from-emerald-500 to-cyan-500",
+    "desc": "A simulation-based companion dashboard for medication reminders and dose acknowledgements."
   },
   {
-    id: 'delta-robot',
-    title: 'DEBRIS ROBOT',
-    subtitle: 'Delta Robot (Mubadala Competition)',
-    type: 'ROBOTICS',
-    tags: ['Embedded', 'C++', 'Computer Vision'],
-    status: 'COMPLETED',
-    url: 'https://github.com/Sedulous-sedu',
-    gradient: 'from-cyan-500 to-blue-500',
-    desc: "Delta robot for debris collection (Mubadala Competition). Led embedded systems design."
+    "id": "motion",
+    "title": "Advanced Motion Profile",
+    "subtitle": "Jerk-limited motion simulation",
+    "type": "ROBOTICS",
+    "tags": [
+      "Python",
+      "Matplotlib"
+    ],
+    "status": "",
+    "url": "https://github.com/Sedulous-sedu/advanced-motion-profile",
+    "gradient": "from-emerald-500 to-cyan-500",
+    "desc": "Compares trapezoidal and jerk-limited S-curve profiles for robotics and motion control."
   }
 ];
 
@@ -254,7 +270,6 @@ function Bird({ speed, factor, url, ...props }) {
   );
 }
 
-useGLTF.preload('models/Stork.glb');
 
 const FlyingBirds = () => {
   const birds = useMemo(() =>
@@ -432,48 +447,21 @@ const FloatingCodeSymbols = () => {
 const BackgroundMusic = () => {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [hasInteracted, setHasInteracted] = useState(false);
-
-  useEffect(() => {
-    const handleFirstInteraction = () => {
-      if (!hasInteracted && audioRef.current) {
-        setHasInteracted(true);
-        audioRef.current.volume = 0.3;
-        audioRef.current.play().then(() => {
-          setIsPlaying(true);
-        }).catch(() => {
-          setIsPlaying(false);
-        });
-      }
-    };
-
-    // Auto-play on first user interaction
-    window.addEventListener('click', handleFirstInteraction, { once: true });
-    window.addEventListener('scroll', handleFirstInteraction, { once: true });
-    window.addEventListener('keydown', handleFirstInteraction, { once: true });
-
-    return () => {
-      window.removeEventListener('click', handleFirstInteraction);
-      window.removeEventListener('scroll', handleFirstInteraction);
-      window.removeEventListener('keydown', handleFirstInteraction);
-    };
-  }, [hasInteracted]);
-
   const toggleMusic = () => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
         setIsPlaying(false);
       } else {
-        audioRef.current.play();
-        setIsPlaying(true);
+        audioRef.current.volume = 0.3;
+        audioRef.current.play().then(() => setIsPlaying(true)).catch(() => setIsPlaying(false));
       }
     }
   };
 
   return (
     <>
-      <audio ref={audioRef} loop preload="auto">
+      <audio ref={audioRef} loop preload="none">
         <source src="The Foundation.mp3" type="audio/mpeg" />
       </audio>
       <motion.button
@@ -484,7 +472,7 @@ const BackgroundMusic = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 2 }}
-        title={isPlaying ? 'Mute Music' : 'Play Music'}
+        aria-label={isPlaying ? 'Pause music' : 'Play music'}
       >
         {isPlaying ? (
           <Volume2 className="w-5 h-5 text-cyan-400" />
@@ -763,7 +751,7 @@ function AvatarScene({ modelConfig, className = '' }) {
 }
 
 // Preload GLB models only (FBX uses different loader)
-Object.values(MODELS).filter(m => m.type !== 'fbx').forEach(m => useGLTF.preload(m.path));
+
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // PARTICLE SPHERE
@@ -927,6 +915,15 @@ const Section = ({ id, children, className = '' }) => {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 const HeroSection = () => {
+  const reducedMotion = useReducedMotion();
+  const [showAvatar, setShowAvatar] = useState(false);
+
+  useEffect(() => {
+    if (reducedMotion) return;
+    const timer = window.setTimeout(() => setShowAvatar(true), 400);
+    return () => window.clearTimeout(timer);
+  }, [reducedMotion]);
+
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
@@ -972,34 +969,21 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
-            className="mt-10 flex gap-4"
+            className="mt-10 flex flex-wrap gap-4"
           >
             <a
-              href={CONTACT.github}
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#projects"
               className="group flex items-center gap-2 px-6 py-3 bg-zinc-900 border border-zinc-800 hover:border-cyan-500/50 hover:bg-cyan-500/10 transition-all rounded-full"
             >
-              <Github className="w-5 h-5" />
-              <span className="font-medium">GitHub</span>
+              <span className="font-medium">View selected work</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </a>
             <a
-              href={CONTACT.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex items-center gap-2 px-6 py-3 bg-zinc-900 border border-zinc-800 hover:border-blue-500/50 hover:bg-blue-500/10 transition-all rounded-full"
-            >
-              <Linkedin className="w-5 h-5" />
-              <span className="font-medium">LinkedIn</span>
-            </a>
-            <a
-              href="/Abin_Portfolio/Abin_Raj_CV.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
+              href={`${import.meta.env.BASE_URL}Abin_Raj_CV.pdf`}
+              download
               className="group flex items-center gap-2 px-6 py-3 bg-zinc-100 text-zinc-900 border border-zinc-100 hover:bg-cyan-400 hover:border-cyan-400 transition-all rounded-full"
             >
-              <span className="font-bold">RESUME</span>
+              <span className="font-bold">Download CV</span>
               <ExternalLink className="w-4 h-4" />
             </a>
           </motion.div>
@@ -1013,7 +997,7 @@ const HeroSection = () => {
           className="flex-1 h-[500px] lg:h-[700px] relative"
         >
           <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 via-transparent to-purple-500/20 rounded-full blur-3xl" />
-          <AvatarScene modelConfig={MODELS.hero} className="w-full h-full" />
+          {showAvatar && !reducedMotion && <AvatarScene modelConfig={MODELS.hero} className="w-full h-full" />}
         </motion.div>
       </div>
 
@@ -1054,6 +1038,7 @@ const ProjectsSection = () => {
           </h2>
         </motion.div>
 
+        <HoneyBReplay />
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
           {projectsData.map((project, index) => (
             <motion.a
@@ -1181,7 +1166,7 @@ const SkillsSection = () => {
           className="w-full lg:w-[400px] h-[400px] relative"
         >
           <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-full blur-3xl" />
-          <ParticleSphereCanvas className="w-full h-full" />
+
         </motion.div>
 
         {/* Skills content */}
@@ -1331,7 +1316,7 @@ const ContactSection = () => {
           className="w-full lg:w-[600px] h-[700px] relative"
         >
           <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-transparent to-cyan-500/20 rounded-full blur-3xl" />
-          <AvatarScene modelConfig={MODELS.contact} className="w-full h-full" />
+
         </motion.div>
 
         {/* Contact content */}
@@ -1445,11 +1430,14 @@ export default function Portfolio() {
 
     function raf(time) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      frame = requestAnimationFrame(raf);
     }
-    requestAnimationFrame(raf);
+    let frame = requestAnimationFrame(raf);
 
-    return () => lenis.destroy();
+    return () => {
+      cancelAnimationFrame(frame);
+      lenis.destroy();
+    };
   }, []);
 
   // Track active section
@@ -1496,10 +1484,6 @@ export default function Portfolio() {
       />
 
       {/* Creative Animated Elements */}
-      <FloatingOrbs />
-      <FlyingBirds />
-      <ShootingStars />
-      <FloatingCodeSymbols />
 
       {/* Background Music */}
       <BackgroundMusic />
