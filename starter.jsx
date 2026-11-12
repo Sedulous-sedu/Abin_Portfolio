@@ -979,7 +979,7 @@ const HeroSection = () => {
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </a>
             <a
-              href={`${import.meta.env.BASE_URL}Abin_Raj_CV.pdf`}
+              href={new URL('./Abin_Raj_CV.pdf', import.meta.url).href}
               download
               className="group flex items-center gap-2 px-6 py-3 bg-zinc-100 text-zinc-900 border border-zinc-100 hover:bg-cyan-400 hover:border-cyan-400 transition-all rounded-full"
             >
