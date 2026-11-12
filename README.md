@@ -5,16 +5,17 @@
 ![Portfolio Preview](https://img.shields.io/badge/Status-Live-success?style=for-the-badge&logo=github)
 ![Tech Stack](https://img.shields.io/badge/Stack-React_|_Three.js_|_Framer_Motion-cyan?style=for-the-badge)
 
-A cutting-edge, **immersive 3D portfolio website** designed for the modern engineer. Built with **React 18**, **Three.js (R3F)**, and **Framer Motion**, it features interactive 3D avatars, flying birds, floating code symbols, and a seamless "industrial futurism" aesthetic.
+A cutting-edge, **immersive 3D portfolio website** designed for the modern engineer. Built with **React 19**, **Three.js (R3F)**, and **Framer Motion**, it features interactive 3D avatars, flying birds, floating code symbols, and a seamless "industrial futurism" aesthetic.
 
 ---
 
-## 🌟 **Features**
+## Features
 
-*   **🎭 3D Hero Avatar**: An animated 3D character (GLB+FBX) that greets visitors with a "Stretching" animation.
-*   **🕊️ 3D Flying Birds**: A flock of realistic storks flying through the background using instanced mesh rendering.
+*   **Honey B replay** illustrates the synchronized controller and pilot workflow across four synthetic scenario steps.
+
+*   **3D hero avatar** loads after the main content for visitors who allow motion.
 *   **💻 Industrial Aesthetics**: Dark-mode design with cyan/emerald accents, glassmorphism, and smooth parallax effects.
-*   **🎵 Interactive Audio**: Custom background music player ("The Foundation") with mute/unmute and autoplay handling.
+*   **🎵 Interactive Audio**: Custom background music player ("The Foundation") with explicit play and pause controls.
 *   **🚀 Dynamic Content**:
     *   **Experience Timeline**: Vertical timeline with tech stack tags.
     *   **Selected Works**: Project cards with hover effects and gradient borders.
@@ -107,18 +108,10 @@ All personal data is stored in **constants** at the top of `starter.jsx`. Simply
 ## 🌍 **Deployment**
 
 ### **Deploy to GitHub Pages**
-This project is configured for easy deployment.
+The GitHub Actions workflow installs dependencies, builds the Vite project, and publishes the `dist/` directory on pushes to `main`. In **Settings → Pages**, select **GitHub Actions** as the source.
 
-1.  **Push your changes** to GitHub:
-    ```bash
-    git add .
-    git commit -m "Update portfolio"
-    git push
-    ```
-2.  Go to **GitHub Repository > Settings > Pages**.
-3.  Select **Source**: `Deploy from a branch`.
-4.  Select **Branch**: `main` (or `master`) and folder `/(root)`.
-5.  Click **Save**. Your site will be live at `https://yourusername.github.io/Abin_Portfolio/`.
+[Open the portfolio](https://sedulous-sedu.github.io/Abin_Portfolio/)
+
 
 ---
 
